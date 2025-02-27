@@ -1,0 +1,43 @@
+cmake_minimum_required(VERSION 3.10)
+project(ZincX VERSION 0.1 LANGUAGES CXX)
+
+# Use C++23. If your toolchain doesn’t fully support C++23, you can adjust this.
+set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+# Set output directories for binaries and libraries (optional)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
+# Include directories: public headers and third-party libraries (if any)
+include_directories(${PROJECT_SOURCE_DIR}/include)
+include_directories(${PROJECT_SOURCE_DIR}/third_party)
+
+# Recursively gather all source files in the /src directory.
+# This assumes your source files use .cpp, .cxx, or .cc extensions.
+file(GLOB_RECURSE SOURCE_FILES
+    ${PROJECT_SOURCE_DIR}/src/*.cpp
+    ${PROJECT_SOURCE_DIR}/src/*.cxx
+    ${PROJECT_SOURCE_DIR}/src/*.cc
+)
+
+# Create a static library target for ZincX.
+# You can change STATIC to SHARED if you prefer a shared library.
+add_library(ZincX STATIC ${SOURCE_FILES})
+
+# Make the public headers available to users of the library.
+target_include_directories(ZincX PUBLIC ${PROJECT_SOURCE_DIR}/include)
+
+# Optionally add tests if you have a /test directory set up.
+# Uncomment the following line if you have tests configured with CTest.
+# add_subdirectory(test)
+
+# Installation rules (optional)
+install(TARGETS ZincX
+    ARCHIVE DESTINATION lib
+    LIBRARY DESTINATION lib
+    RUNTIME DESTINATION bin
+)
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/ DESTINATION include)
