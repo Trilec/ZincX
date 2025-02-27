@@ -253,61 +253,6 @@ public:
     }
 };
 
-/*==================== Enumerations =====================*/
 
-/** @brief General alignment options. */
-enum class Alignment { Left, Center, Right, Top, Bottom };
-
-/** @brief Cardinal directions. */
-enum class Direction { North, East, South, West };
-
-/* Graphics */
-enum class RenderMode { Text, Graphics16, Vulkan };
-enum class CoordinateSystem { Screen, World };
-
-/* Widgets */
-enum class WidgetState { Normal, Hovered, Pressed, Disabled };
-enum class WidgetType { Button, TextField, ComboBox };
-
-/* Event */
-enum class EventType { MouseClick, KeyPress, TouchStart };
-enum class KeyModifier { None, Shift, Ctrl, Alt };
-
-/* Input */
-enum class InputDeviceType { Mouse, Keyboard, Touchpad };
-enum class GestureType { Swipe, Pinch, Tap };
-
-/* Compute */
-enum class ComputeBackend { Vulkan, CPU };
-enum class TaskPriority { Low, Medium, High };
-
-/* Layout */
-enum class LayoutOrientation { Horizontal, Vertical };
-enum class LayoutAlignment { Start, Center, End, Stretch };
-
-/* Resource Management */
-enum class ResourceType { Texture, Font, Shader };
-enum class LoadState { Loading, Loaded, Failed };
-
-/* Style */
-enum class BorderStyle { Solid, Dashed, Dotted };
-enum class FontWeight { Normal, Bold, Light };
-enum class TextAlignment { Left, Center, Right, Justified };
-
-/* Internationalization & Accessibility */
-enum class Language { English, Spanish, French };
-enum class AccessibilityRole { Button, Checkbox, Slider };
-
-/* Networking */
-enum class Protocol { TCP, UDP };
-enum class ConnectionState { Connecting, Connected, Disconnected, Failed };
-
-/* Debugging & Profiling */
-enum class LogLevel { Debug, Info, Warning, Error, Fatal };
-enum class ProfilingCategory { Rendering, Compute, Input };
-
-/* General */
-enum class Platform { DOS, Win16, Windows, MacOS, Linux, Embedded };
-enum class ErrorCode { Success, InvalidArgument, ResourceNotFound };
 
 } // namespace ZincX
