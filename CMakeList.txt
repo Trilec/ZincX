@@ -1,43 +1,39 @@
+# Minimum CMake version required
 cmake_minimum_required(VERSION 3.10)
-project(ZincX VERSION 0.1 LANGUAGES CXX)
 
-# Use C++23. If your toolchain doesn’t fully support C++23, you can adjust this.
+# Project name and language
+project(ZincX CXX)
+
+# Set C++ standard to 23 and make it required
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
 
-# Set output directories for binaries and libraries (optional)
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-
-# Include directories: public headers and third-party libraries (if any)
-include_directories(${PROJECT_SOURCE_DIR}/include)
-include_directories(${PROJECT_SOURCE_DIR}/third_party)
-
-# Recursively gather all source files in the /src directory.
-# This assumes your source files use .cpp, .cxx, or .cc extensions.
-file(GLOB_RECURSE SOURCE_FILES
-    ${PROJECT_SOURCE_DIR}/src/*.cpp
-    ${PROJECT_SOURCE_DIR}/src/*.cxx
-    ${PROJECT_SOURCE_DIR}/src/*.cc
+# Define the source files for the ZincX library
+set(ZINCX_SOURCES
+    src/common/ZLog.cpp
+    src/graphics/ZGraphicsItem.cpp
+    src/graphics/ZGraphicsView.cpp
+    src/graphics/DOSGraphicsBackend.cpp
+    src/event/ZEventManager.cpp
 )
 
-# Create a static library target for ZincX.
-# You can change STATIC to SHARED if you prefer a shared library.
-add_library(ZincX STATIC ${SOURCE_FILES})
+# Create a static library from the source files
+add_library(ZincX STATIC ${ZINCX_SOURCES})
 
-# Make the public headers available to users of the library.
-target_include_directories(ZincX PUBLIC ${PROJECT_SOURCE_DIR}/include)
-
-# Optionally add tests if you have a /test directory set up.
-# Uncomment the following line if you have tests configured with CTest.
-# add_subdirectory(test)
-
-# Installation rules (optional)
-install(TARGETS ZincX
-    ARCHIVE DESTINATION lib
-    LIBRARY DESTINATION lib
-    RUNTIME DESTINATION bin
+# Specify include directories for the library
+target_include_directories(ZincX PUBLIC
+    ${CMAKE_SOURCE_DIR}/src/common
+    ${CMAKE_SOURCE_DIR}/src/graphics
+    ${CMAKE_SOURCE_DIR}/src/event
 )
-install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/ DESTINATION include)
+
+# Optional: Add compile options (e.g., warnings)
+if(MSVC)
+    target_compile_options(ZincX PRIVATE /W4)
+else()
+    target_compile_options(ZincX PRIVATE -Wall -Wextra -Wpedantic)
+endif()
+
+# Optional: Define a simple executable for testing (uncomment to use)
+# add_executable(ZincXTest src/main.cpp)
+# target_link_libraries(ZincXTest PRIVATE ZincX)
